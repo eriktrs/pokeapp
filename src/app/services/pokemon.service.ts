@@ -10,10 +10,10 @@ export class PokemonService {
   private baseUrl: string = 'https://pokeapi.co/api/v2';
 
   // Constructor to inject HttpClient
-  constructor(private http: HttpClient) {};
+  constructor(private http: HttpClient) {}
 
   // Method to get a list of all Pokémons
-  getAllPokemon(limit: number, offset: number) {
+  getPokemonList(limit: number, offset: number) {
     // Construct the URL with query parameters for pagination
 
     // Validate the limit and offset parameters
@@ -25,8 +25,8 @@ export class PokemonService {
       throw new Error('Limit and offset must be numbers');
     }
 
-    if (!Number.isInteger(limit) || !Number.isInteger(offset)) {
-      throw new Error('Limit and offset must be integers');
+    if (Number.isNaN(limit) || Number.isNaN(offset)) {
+      throw new Error('Limit and offset must be Numbers');
     }
 
     if (limit > 20) {
