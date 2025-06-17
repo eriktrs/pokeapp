@@ -11,7 +11,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
   },
   {
-    path: 'details',
+    path: 'details/:number',
     loadComponent: () => import('./pages/details/details.page').then( m => m.DetailsPage)
   },
 ];
