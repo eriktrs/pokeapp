@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Home Page</ion-title>
+    <ion-title>Poke App</ion-title>
     <ion-buttons>
       <ion-buttons slot="start">
         <ion-menu-button auto-hide="true"></ion-menu-button>
@@ -10,22 +10,22 @@
 </ion-header>
 
 <ion-content [fullscreen]="false">
-  <ion-grid>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ion-grid *ngIf="!loading">
     <ion-row>
-      <ion-col size-sm="2" size-md="4" size-lg="3" size="6" *ngFor="let pokemon of pokemons">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>{{ pokemon.name }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-buttons slot="end">
-              <ion-button (click)="viewDetails(pokemon.name)">
-                <img [src]="pokemon.image" alt="{{ pokemon.name }}" />
-              </ion-button>
-            </ion-buttons>
-          </ion-card-content>
-        </ion-card>
+      <ion-col sizeXs="6" sizeSm="6" size-md="4" size-lg="3" size="2" *ngFor="let pokemon of pokemons">
+        <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="loadPreviousPokemons()" [disabled]="currentPage === 1">Previous</ion-button>
+      <ion-text>Page {{ currentPage }} of {{ totalPages }}</ion-text>
+      <ion-button (click)="loadMorePokemons()" [disabled]="currentPage === totalPages">Next</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
