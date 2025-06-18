@@ -1,0 +1,12 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{ pokemon.name }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-buttons slot="end">
+      <ion-button (click)="viewDetails(pokemon.name)">
+        <img [src]="pokemon.image" alt="{{ pokemon.name }}" />
+      </ion-button>
+    </ion-buttons>
+  </ion-card-content>
+</ion-card>
