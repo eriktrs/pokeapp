@@ -3,7 +3,7 @@
     <ion-title>Home Page</ion-title>
     <ion-buttons>
       <ion-buttons slot="start">
-        <ion-menu-button auto-hide="false"></ion-menu-button>
+        <ion-menu-button auto-hide="true"></ion-menu-button>
       </ion-buttons>
     </ion-buttons>
   </ion-toolbar>
@@ -12,13 +12,17 @@
 <ion-content [fullscreen]="false">
   <ion-grid>
     <ion-row>
-      <ion-col sizeLg="4" *ngFor="let pokemon of pokemons">
+      <ion-col size-sm="2" size-md="4" size-lg="3" size="6" *ngFor="let pokemon of pokemons">
         <ion-card>
           <ion-card-header>
             <ion-card-title>{{ pokemon.name }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <img [src]="pokemon.image" alt="{{ pokemon.name }}" />
+            <ion-buttons slot="end">
+              <ion-button (click)="viewDetails(pokemon.name)">
+                <img [src]="pokemon.image" alt="{{ pokemon.name }}" />
+              </ion-button>
+            </ion-buttons>
           </ion-card-content>
         </ion-card>
       </ion-col>
