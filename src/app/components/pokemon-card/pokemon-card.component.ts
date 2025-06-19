@@ -7,8 +7,11 @@ import {
   IonCardTitle,
   IonButtons,
   IonButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { addIcons } from 'ionicons';
+import { heart, logoApple, settingsSharp, star } from 'ionicons/icons';
 
 @Component({
   selector: 'app-pokemon-card',
@@ -16,6 +19,7 @@ import { Router } from '@angular/router';
   templateUrl: './pokemon-card.component.html',
   styleUrls: ['./pokemon-card.component.scss'],
   imports: [
+    IonIcon,
     IonButton,
     IonButtons,
     CommonModule,
@@ -28,7 +32,9 @@ import { Router } from '@angular/router';
 export class PokemonCardComponent implements OnInit {
   pokemon: any;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    addIcons({ heart, logoApple, settingsSharp, star });
+  }
 
   ngOnInit() {
     const pokemon = this.pokemon;
@@ -36,5 +42,9 @@ export class PokemonCardComponent implements OnInit {
 
   viewDetails(pokemon: any) {
     this.router.navigate(['details', pokemon]);
+  }
+
+  toggleFavorite(pokemon: any) {
+    pokemon.isFavorite = !pokemon.isFavorite;
   }
 }
