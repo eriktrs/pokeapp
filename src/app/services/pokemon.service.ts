@@ -2,17 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PokemonService {
-
   // Base URL for the Pokémon API
   private baseUrl: string = 'https://pokeapi.co/api/v2';
 
   // Constructor to inject HttpClient
   constructor(private http: HttpClient) {}
 
-  // Method to get a list of all Pokémons
+  // Method to get a list of Pokemons
   getPokemonList(limit: number, offset: number) {
     // Construct the URL with query parameters for pagination
 
@@ -29,12 +28,14 @@ export class PokemonService {
       throw new Error('Limit and offset must be Numbers');
     }
 
-    if (limit > 20) {
-      throw new Error('Limit cannot exceed 20');
-    }
-
     // Return the observable from the HTTP request
     return this.http.get<any>(`${this.baseUrl}/pokemon?limit=${limit}&offset=${offset}`);
+  }
+
+  // Method to get a full list of Pokemons
+  getAllPokemons() {
+    // Return Pokemon List
+    return this.getPokemonList(1300, 0);
   }
 
   // Method to get details of a specific Pokémon by name
@@ -47,6 +48,4 @@ export class PokemonService {
     // Return the observable from the HTTP request
     return this.http.get<any>(`${this.baseUrl}/pokemon/${name}`);
   }
-
 }
-
