@@ -4,11 +4,15 @@
           <ion-searchbar
             id="searchPoke"
             placeholder="Search Pokemon"
-            (ionInput)="onSearchPokemons($event)"
-            debounce="1000"
+            (ionInput)="onSearchPokemons($event.detail.value)"
+            (ionClear)="onSearchPokemons(null)"
+            [value]="savedText"
+            debounce="300"
             aria-label="Search Pokemon"
             minlength="3"
             maxlength="20"
+            enterkeyhint="enter"
+            inputmode="search"
             ></ion-searchbar>
         </ion-col>
       </ion-row>

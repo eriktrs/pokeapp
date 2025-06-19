@@ -1,40 +1,37 @@
-import { Component, EventEmitter, AfterViewInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { PokemonService } from 'src/app/services/pokemon.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pokemon-filter',
   inputs: ['pokemons', 'regions'],
   templateUrl: './pokemon-filter.component.html',
   styleUrls: ['./pokemon-filter.component.scss'],
-  imports: [
-    CommonModule,
-    IonicModule
-  ]
+  imports: [CommonModule, IonicModule, FormsModule],
 })
-export class PokemonFilterComponent implements AfterViewInit {
+export class PokemonFilterComponent implements OnInit {
   constructor() {}
 
   // Get saved text if exists
-  private searchText = localStorage.getItem('search') || '';
+  savedText = localStorage.getItem('search') || '';
 
   // Output events to communicate with parent component
-  @Output() searchPokemons = new EventEmitter<any>();
+  @Output() searchPokemons = new EventEmitter<string>();
 
   // Lifecycle hook that is called after the component has been initialized
-  ngAfterViewInit() {
-    const searchInput = document.getElementById('searchPoke') as HTMLInputElement | null;
-    if (searchInput) {
-      searchInput.value = this.searchText;
+  ngOnInit() {
+    if (this.savedText) {
+      this.searchPokemons.emit(this.savedText);
     }
   }
 
-  // Method to filter Pokemons based on search input and selected generation
-  onSearchPokemons(text: any) {
-    if (text === '') {
-      return;
-    }
+  // Method to filter Pokemons based on search input
+  onSearchPokemons(userText: string | null | undefined) {
+    const text = userText ?? '';
+
+    localStorage.setItem('search', text);
+
     this.searchPokemons.emit(text);
   }
 }
