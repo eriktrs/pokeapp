@@ -1,11 +1,9 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Poke App</ion-title>
-    <ion-buttons>
-      <ion-buttons slot="start">
-        <ion-menu-button auto-hide="true"></ion-menu-button>
-      </ion-buttons>
-    </ion-buttons>
+    <ion-title>PokeApp</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <app-pokemon-filter (searchPokemons)="onSearchPokemons($event)"></app-pokemon-filter>
   </ion-toolbar>
 </ion-header>
 
