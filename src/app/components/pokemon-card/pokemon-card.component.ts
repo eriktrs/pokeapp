@@ -12,7 +12,7 @@ import {
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { heart, logoApple, settingsSharp, star } from 'ionicons/icons';
-import { FavoriteService } from 'src/app/services/favorite/favorite.service';
+import { FavoriteService } from '../../services/favorite/favorite.service';
 
 @Component({
   selector: 'app-pokemon-card',
