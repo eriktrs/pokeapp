@@ -15,11 +15,15 @@ import {
   IonButton,
   IonFooter,
   IonText,
-  IonLoading
+  IonLoading,
+  IonLabel,
+  IonSegmentButton,
+  IonSegment,
 } from '@ionic/angular/standalone';
 
 // Import Components and Services
 import { PokemonService } from '../../services/pokemon/pokemon.service';
+import { FavoriteService } from '../../services/favorite/favorite.service';
 import { PokemonCardComponent } from '../../components/pokemon-card/pokemon-card.component';
 import { PokemonFilterComponent } from '../../components/pokemon-filter/pokemon-filter.component';
 
@@ -43,7 +47,10 @@ import { PokemonFilterComponent } from '../../components/pokemon-filter/pokemon-
     IonRow,
     IonCol,
     PokemonCardComponent,
-    PokemonFilterComponent
+    PokemonFilterComponent,
+    IonSegment,
+    IonSegmentButton,
+    IonLabel,
   ],
 })
 export class HomePage implements OnInit {
@@ -52,6 +59,9 @@ export class HomePage implements OnInit {
 
   // Array to hold the saved list of Pokemons
   savedPokemons: any[] = [];
+
+  // Array to hold the filtered list of Pokemons
+  filteredPokemons: any[] = [];
 
   // Array to hold all Pokemons
   allPokemons: any[] = [];
@@ -71,8 +81,11 @@ export class HomePage implements OnInit {
   // Variable to keep track of the current filter
   searchText = localStorage.getItem('search') ?? '';
 
+  // Variable to check segment value
+  segmentValue: string = 'all';
+
   // Inject the PokemonService and Router in the constructor
-  constructor(private pokemonService: PokemonService, private router: Router) {}
+  constructor(private pokemonService: PokemonService, private favoriteService: FavoriteService, private router: Router) {}
 
   // Lifecycle hook that runs when the component is initialized
   ngOnInit() {
@@ -113,8 +126,11 @@ export class HomePage implements OnInit {
       return;
     }
 
+    // Reset filter
+    this.refreshFilter();
+
     // Start filter method
-    this.pokemons = this.savedPokemons.filter((p) =>
+    this.pokemons = this.filteredPokemons.filter((p) =>
       p.name.toLowerCase().includes(searchText)
     );
 
@@ -128,6 +144,38 @@ export class HomePage implements OnInit {
       this.savedPokemons == this.allPokemons;
       return;
     }
+  }
+
+  async onSegmentChange(event: any) {
+    this.segmentValue = event.detail.value;
+    this.applySegmentFilter();
+  }
+
+  // Method do apply segment filter
+  async applySegmentFilter() {
+
+    // Get all pokemons before filter
+    this.refreshFilter();
+
+    // If there is any favorite Pokemon
+    if (this.segmentValue === 'favorites') {
+      this.pokemons = this.filteredPokemons.filter((p) => p.isFavorite);
+
+      // If there is no pokemon
+      if (this.pokemons.length == 0) {
+        this.refreshFilter();
+      }
+      return
+    } else {
+      this.refreshFilter();
+    }
+  }
+
+  private refreshFilter() {
+    // Get all pokemons before filter
+    this.filteredPokemons = this.allPokemons;
+    this.filteredPokemons == this.allPokemons;
+    this.pokemons = this.savedPokemons;
   }
 
   // Method to load Pokemons with pagination
@@ -156,7 +204,7 @@ export class HomePage implements OnInit {
             image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonService.extractId(
               pokemon.url
             )}.png`,
-            isFavorite: false,
+            isFavorite: this.favoriteService.isFavorite(this.pokemonService.extractId(pokemon.url)),
           }));
 
           // Update the current page based on the offset
@@ -164,6 +212,9 @@ export class HomePage implements OnInit {
 
           // Save the current page to localStorage
           localStorage.setItem('currentPage', this.currentPage.toString());
+
+          // Create a backup of current list
+          this.savedPokemons = this.pokemons;
 
           // Apply filter
           if (this.searchText.trim()) {
@@ -196,11 +247,8 @@ export class HomePage implements OnInit {
             image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonService.extractId(
               pokemon.url
             )}.png`,
-            isFavorite: false
+            isFavorite: this.favoriteService.isFavorite(this.pokemonService.extractId(pokemon.url)),
           }));
-
-          // Create a backup array of pokemons for search method
-          this.savedPokemons = this.allPokemons;
 
           // Update the current page based on the offset
           this.currentPage = 1;

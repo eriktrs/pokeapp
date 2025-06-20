@@ -3,7 +3,9 @@
     <ion-title>PokeApp</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <app-pokemon-filter (searchPokemons)="onSearchPokemons($event)"></app-pokemon-filter>
+    <app-pokemon-filter
+      (searchPokemons)="onSearchPokemons($event)"
+    ></app-pokemon-filter>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +13,24 @@
   <ion-loading spinner="circles" *ngIf="loading"></ion-loading>
   <ion-grid *ngIf="!loading">
     <ion-row>
-      <ion-col sizeXs="6" sizeSm="6" size-md="4" size-lg="3" size="2" *ngFor="let pokemon of pokemons">
+      <ion-segment value="all" (ionChange)="onSegmentChange($event)">
+        <ion-segment-button value="all">
+          <ion-label>All</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="favorites">
+          <ion-label>Favorites</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-row>
+    <ion-row>
+      <ion-col
+        sizeXs="6"
+        sizeSm="6"
+        size-md="4"
+        size-lg="3"
+        size="2"
+        *ngFor="let pokemon of pokemons"
+      >
         <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
       </ion-col>
     </ion-row>
@@ -21,9 +40,17 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons>
-      <ion-button (click)="loadPreviousPokemons()" [disabled]="currentPage === 1">Previous</ion-button>
+      <ion-button
+        (click)="loadPreviousPokemons()"
+        [disabled]="currentPage === 1"
+        >Previous</ion-button
+      >
       <ion-text>Page {{ currentPage }} of {{ totalPages }}</ion-text>
-      <ion-button (click)="loadMorePokemons()" [disabled]="currentPage === totalPages">Next</ion-button>
+      <ion-button
+        (click)="loadMorePokemons()"
+        [disabled]="currentPage === totalPages"
+        >Next</ion-button
+      >
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
