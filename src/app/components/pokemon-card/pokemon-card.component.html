@@ -4,10 +4,10 @@
   </ion-card-header>
   <ion-card-content>
     <ion-buttons>
-      <ion-button slot="icon-only" fill="clear" size="small" (click)="toggleFavorite(pokemon)">
+      <ion-button slot="icon-only" fill="clear" size="small" (click)="toggleFavorite(pokemon.id)">
         <ion-icon
-          [name]="pokemon.isFavorite ? 'star' : 'star'"
-          [color]="pokemon.isFavorite ? 'warning' : 'medium'"
+          [name]="isFavorite(pokemon.id) ? 'star' : 'star'"
+          [color]="isFavorite(pokemon.id) ? 'warning' : 'medium'"
           slot="icon-only">
         </ion-icon>
       </ion-button>

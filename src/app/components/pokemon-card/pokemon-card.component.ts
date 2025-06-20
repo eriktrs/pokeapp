@@ -12,6 +12,7 @@ import {
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { heart, logoApple, settingsSharp, star } from 'ionicons/icons';
+import { FavoriteService } from 'src/app/services/favorite/favorite.service';
 
 @Component({
   selector: 'app-pokemon-card',
@@ -32,19 +33,28 @@ import { heart, logoApple, settingsSharp, star } from 'ionicons/icons';
 export class PokemonCardComponent implements OnInit {
   pokemon: any;
 
-  constructor(private router: Router) {
+  constructor(private favoriteService: FavoriteService ,private router: Router) {
     addIcons({ heart, logoApple, settingsSharp, star });
   }
 
-  ngOnInit() {
-    const pokemon = this.pokemon;
-  }
+  ngOnInit() {}
 
-  viewDetails(pokemon: any) {
+  // Method to view Pokemon details
+  viewDetails(pokemon: string) {
     this.router.navigate(['details', pokemon]);
   }
 
-  toggleFavorite(pokemon: any) {
-    pokemon.isFavorite = !pokemon.isFavorite;
+  // Method to toggle favorites Pokemons
+  toggleFavorite(pokemonId: string) {
+    if (this.favoriteService.isFavorite(pokemonId)) {
+      this.favoriteService.removeFavorite(pokemonId);
+    } else {
+      this.favoriteService.addFavorite(pokemonId);
+    }
+  }
+
+  // Method to check if this Pokemon is favorite
+  isFavorite(pokemonId:string): boolean {
+    return this.favoriteService.isFavorite(pokemonId);
   }
 }
