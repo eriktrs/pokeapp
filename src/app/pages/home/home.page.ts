@@ -19,7 +19,7 @@ import {
 } from '@ionic/angular/standalone';
 
 // Import Components and Services
-import { PokemonService } from '../../services/pokemon.service';
+import { PokemonService } from '../../services/pokemon/pokemon.service';
 import { PokemonCardComponent } from '../../components/pokemon-card/pokemon-card.component';
 import { PokemonFilterComponent } from '../../components/pokemon-filter/pokemon-filter.component';
 
@@ -80,11 +80,11 @@ export class HomePage implements OnInit {
     const savedPage = localStorage.getItem('currentPage');
     const page = savedPage ? Number(savedPage) : 1;
 
-    // Backup of all pokemons
-    this.getAllPokemons();
-
     // Load the first 20 Pokemons when the component initializes
     this.loadPokemons(page);
+
+    // Backup of all pokemons
+    this.getAllPokemons();
   }
 
   // Method to load more Pokemons
@@ -102,7 +102,7 @@ export class HomePage implements OnInit {
   }
 
   // Method to filter Pokemons
-  onSearchPokemons(searchText: string) {
+  async onSearchPokemons(searchText: string) {
     if (typeof searchText !== 'string' || searchText.trim() === '') {
       this.loadPokemons(1);
       return;
@@ -131,7 +131,7 @@ export class HomePage implements OnInit {
   }
 
   // Method to load Pokemons with pagination
-  private loadPokemons(page: number) {
+  private async loadPokemons(page: number) {
     // Set loading to true to indicate data is being fetched
     this.loading = true;
 
@@ -150,11 +150,13 @@ export class HomePage implements OnInit {
 
           // Map the response to the pokemons array with name, url, and image
           this.pokemons = response.results.map((pokemon: any) => ({
+            id: this.pokemonService.extractId(pokemon.url),
             name: pokemon.name,
             url: pokemon.url,
-            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.extractId(
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonService.extractId(
               pokemon.url
             )}.png`,
+            isFavorite: false,
           }));
 
           // Update the current page based on the offset
@@ -174,7 +176,7 @@ export class HomePage implements OnInit {
       });
   }
 
-  private getAllPokemons() {
+  private async getAllPokemons() {
     // Set loading to true to indicate data is being fetched
     this.loading = true;
 
@@ -188,11 +190,13 @@ export class HomePage implements OnInit {
 
           // Map the response to the pokemons array with name, url, and image
           this.allPokemons = response.results.map((pokemon: any) => ({
+            id: this.pokemonService.extractId(pokemon.url),
             name: pokemon.name,
             url: pokemon.url,
-            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.extractId(
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonService.extractId(
               pokemon.url
             )}.png`,
+            isFavorite: false
           }));
 
           // Create a backup array of pokemons for search method
@@ -205,11 +209,5 @@ export class HomePage implements OnInit {
           localStorage.setItem('currentPage', this.currentPage.toString());
         },
       });
-  }
-
-  // Method to extract the Pokemon ID from the URL
-  private extractId(url: string): string {
-    const parts = url.split('/');
-    return parts[parts.length - 2];
   }
 }
