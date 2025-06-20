@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="false">
-  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ion-loading spinner="circles" *ngIf="loading"></ion-loading>
   <ion-grid *ngIf="!loading">
     <ion-row>
       <ion-col sizeXs="6" sizeSm="6" size-md="4" size-lg="3" size="2" *ngFor="let pokemon of pokemons">

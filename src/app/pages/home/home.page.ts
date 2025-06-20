@@ -14,8 +14,8 @@ import {
   IonButtons,
   IonButton,
   IonFooter,
-  IonSpinner,
   IonText,
+  IonLoading
 } from '@ionic/angular/standalone';
 
 // Import Components and Services
@@ -30,7 +30,7 @@ import { PokemonFilterComponent } from '../../components/pokemon-filter/pokemon-
   styleUrls: ['home.page.scss'],
   imports: [
     IonText,
-    IonSpinner,
+    IonLoading,
     IonFooter,
     IonButton,
     CommonModule,
@@ -43,7 +43,7 @@ import { PokemonFilterComponent } from '../../components/pokemon-filter/pokemon-
     IonRow,
     IonCol,
     PokemonCardComponent,
-    PokemonFilterComponent,
+    PokemonFilterComponent
   ],
 })
 export class HomePage implements OnInit {
