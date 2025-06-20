@@ -63,6 +63,9 @@ export class HomePage implements OnInit {
   // Array to hold the filtered list of Pokemons
   filteredPokemons: any[] = [];
 
+  // Array to hold the favorite list of Pokemons
+  favoritePokemons: any[] = [];
+
   // Array to hold all Pokemons
   allPokemons: any[] = [];
 
@@ -85,7 +88,11 @@ export class HomePage implements OnInit {
   segmentValue: string = 'all';
 
   // Inject the PokemonService and Router in the constructor
-  constructor(private pokemonService: PokemonService, private favoriteService: FavoriteService, private router: Router) {}
+  constructor(
+    private pokemonService: PokemonService,
+    private favoriteService: FavoriteService,
+    private router: Router
+  ) {}
 
   // Lifecycle hook that runs when the component is initialized
   ngOnInit() {
@@ -146,35 +153,68 @@ export class HomePage implements OnInit {
     }
   }
 
-  async onSegmentChange(event: any) {
+  onSegmentChange(event: any) {
     this.segmentValue = event.detail.value;
     this.applySegmentFilter();
   }
 
-  // Method do apply segment filter
-  async applySegmentFilter() {
+  onCardChange(updatedPokemon: any) {
+  // Update list of all pokemons
+  const indexAll = this.allPokemons.findIndex(p => p.id === updatedPokemon.id);
+  if (indexAll > -1) {
+    this.allPokemons[indexAll] = { ...updatedPokemon };
+  }
 
+  // Update list of updated pokemons
+  const indexCurrent = this.pokemons.findIndex(p => p.id === updatedPokemon.id);
+  if (indexCurrent > -1) {
+    // Remove if selected pokemon is not in favorites
+    if (this.segmentValue === 'favorites' && !updatedPokemon.isFavorite) {
+      this.pokemons.splice(indexCurrent, 1);
+    } else {
+      this.pokemons[indexCurrent] = { ...updatedPokemon };
+    }
+  } else {
+    // If any pokemon is missing in actual list
+    if (this.segmentValue === 'all') {
+      this.pokemons.push({ ...updatedPokemon });
+    }
+  }
+
+  // Update in favorite list of pokemons
+  const indexFav = this.favoritePokemons.findIndex(p => p.id === updatedPokemon.id);
+  if (updatedPokemon.isFavorite) {
+    if (indexFav === -1) {
+      this.favoritePokemons.push({ ...updatedPokemon });
+    } else {
+      this.favoritePokemons[indexFav] = { ...updatedPokemon };
+    }
+  } else {
+    if (indexFav > -1) {
+      this.favoritePokemons.splice(indexFav, 1);
+    }
+  }
+}
+
+
+  // Method do apply segment filter
+  private async applySegmentFilter() {
     // Get all pokemons before filter
     this.refreshFilter();
 
     // If there is any favorite Pokemon
     if (this.segmentValue === 'favorites') {
-      this.pokemons = this.filteredPokemons.filter((p) => p.isFavorite);
-
-      // If there is no pokemon
-      if (this.pokemons.length == 0) {
-        this.refreshFilter();
-      }
-      return
+      this.favoritePokemons = this.filteredPokemons.filter((p) => p.isFavorite);
+      this.pokemons = this.favoritePokemons;
     } else {
-      this.refreshFilter();
+      this.pokemons = this.savedPokemons;
     }
   }
 
+  // Method to refresh values
   private refreshFilter() {
     // Get all pokemons before filter
     this.filteredPokemons = this.allPokemons;
-    this.filteredPokemons == this.allPokemons;
     this.pokemons = this.savedPokemons;
   }
 

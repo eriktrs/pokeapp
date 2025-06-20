@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonCard,
@@ -32,6 +32,7 @@ import { FavoriteService } from '../../services/favorite/favorite.service';
 })
 export class PokemonCardComponent implements OnInit {
   pokemon: any;
+  @Output() changed = new EventEmitter<any>();
 
   constructor(private favoriteService: FavoriteService ,private router: Router) {
     addIcons({ heart, logoApple, settingsSharp, star });
@@ -46,12 +47,18 @@ export class PokemonCardComponent implements OnInit {
 
   // Method to toggle favorites Pokemons
   toggleFavorite(pokemonId: string) {
-    if (this.favoriteService.isFavorite(pokemonId)) {
-      this.favoriteService.removeFavorite(pokemonId);
-    } else {
-      this.favoriteService.addFavorite(pokemonId);
-    }
+  if (this.favoriteService.isFavorite(pokemonId)) {
+    this.favoriteService.removeFavorite(pokemonId);
+    this.pokemon.isFavorite = false;
+  } else {
+    this.favoriteService.addFavorite(pokemonId);
+    this.pokemon.isFavorite = true;
   }
+
+  // Update the pokemon list
+  this.changed.emit({ ...this.pokemon });
+}
+
 
   // Method to check if this Pokemon is favorite
   isFavorite(pokemonId:string): boolean {

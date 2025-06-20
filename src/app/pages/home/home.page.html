@@ -31,7 +31,7 @@
         size="2"
         *ngFor="let pokemon of pokemons"
       >
-        <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+        <app-pokemon-card (changed)="onCardChange($event)" [pokemon]="pokemon"></app-pokemon-card>
       </ion-col>
     </ion-row>
   </ion-grid>
