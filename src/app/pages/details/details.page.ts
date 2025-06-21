@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon/pokemon.service';
 import { FavoriteService } from '../../services/favorite/favorite.service';
 import {
@@ -54,9 +54,11 @@ export class DetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private pokemonService: PokemonService,
-    private favoriteService: FavoriteService
+    private favoriteService: FavoriteService,
+    private router: Router,
   ) {}
 
+  // Initialize the component and load Pokémon details based on the route parameter
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('name');
     if (id) {
@@ -64,6 +66,14 @@ export class DetailsPage implements OnInit {
     }
   }
 
+  // Navigate to home page when leaving the details page
+  ionViewWillLeave() {
+    this.router.navigateByUrl('/home', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/home']);
+    });
+  }
+
+  // Load Pokémon details by ID or name
   loadPokemonDetails(id: string) {
     this.loading = true;
     this.pokemonService.getPokemonDetails(id).subscribe({
@@ -76,7 +86,7 @@ export class DetailsPage implements OnInit {
           abilities: data.abilities.map((a: any) => a.ability.name),
           height: data.height,
           weight: data.weight,
-          isFavorite: this.favoriteService.isFavorite(data.id),
+          isFavorite: this.favoriteService.isFavorite(String(data.id)),
         };
 
         // Related images: add other sprite versions
@@ -94,6 +104,7 @@ export class DetailsPage implements OnInit {
     });
   }
 
+  // Get related sprites from the Pokémon data
   getRelatedSprites(sprites: any): string[] {
     const images: string[] = [];
     if (sprites.front_shiny) images.push(sprites.front_shiny);
@@ -104,6 +115,7 @@ export class DetailsPage implements OnInit {
     return images;
   }
 
+  // Load evolutions from the Pokémon species data
   loadEvolutions(idOrName: string) {
     this.pokemonService.getPokemonSpecies(idOrName).subscribe({
       next: (speciesData) => {
@@ -119,6 +131,7 @@ export class DetailsPage implements OnInit {
     });
   }
 
+  // Extract evolutions from the evolution chain
   extractEvolutions(chain: any): { name: string; image: string }[] {
     const evolutions: { name: string; image: string }[] = [];
 
