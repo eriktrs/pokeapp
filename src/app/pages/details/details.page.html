@@ -1,15 +1,19 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ pokemon?.name | uppercase }}</ion-title>
+    <ion-title>{{ pokemon?.name | titlecase }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="!loading; else loadingTemplate">
   <ion-card>
-    <img [src]="pokemon?.sprites?.other?.['official-artwork']?.front_default || pokemon?.sprites?.front_default"
-         alt="{{ pokemon?.name }}">
+    <img
+      [src]="pokemon?.sprites?.other?.['official-artwork']?.front_default || pokemon?.sprites?.front_default"
+      alt="{{ pokemon?.name }}"
+    />
     <ion-card-header>
-      <ion-card-title>#{{ pokemon?.id }} - {{ pokemon?.name | titlecase }}</ion-card-title>
+      <ion-card-title
+        >#{{ pokemon?.id }} - {{ pokemon?.name | titlecase }}</ion-card-title
+      >
     </ion-card-header>
     <ion-card-content>
       <p><strong>Types:</strong> {{ pokemon?.types.join(', ') }}</p>
@@ -19,6 +23,51 @@
       <ion-button expand="block" (click)="toggleFavorite()">
         {{ pokemon?.isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
       </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="relatedImages.length > 0">
+    <ion-card-header>
+      <ion-card-title>Related Images</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col
+            size="6"
+            size-sm="4"
+            size-md="3"
+            size-lg="2"
+            *ngFor="let img of relatedImages"
+            class="ion-text-center"
+          >
+            <img [src]="img" [alt]="pokemon?.name" class="responsive-img" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="evolutions.length > 0">
+    <ion-card-header>
+      <ion-card-title>Evolutions</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col
+            size="6"
+            size-sm="4"
+            size-md="3"
+            size-lg="2"
+            *ngFor="let evo of evolutions"
+            class="ion-text-center"
+          >
+            <img [src]="evo.image" [alt]="evo.name" class="responsive-img" />
+            <ion-text>{{ evo.name | titlecase }}</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>
