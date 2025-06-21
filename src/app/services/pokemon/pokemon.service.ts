@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PokemonService {
   // Base URL for the Pokémon API
-  private baseUrl: string = 'https://pokeapi.co/api/v2';
+  private readonly baseUrl: string = 'https://pokeapi.co/api/v2';
+
+  private nameToIdMap: Record<string, number> = {};
 
   // Constructor to inject HttpClient
   constructor(private http: HttpClient) {}
@@ -56,4 +59,21 @@ export class PokemonService {
     const parts = url.split('/');
     return parts[parts.length - 2];
   }
+
+  // Method to extract Pokemon Species
+  getPokemonSpecies(idOrName: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/pokemon-species/${idOrName}`);
+  }
+
+  // Method to get evolutions of the same species
+  getEvolutionChainByUrl(url: string): Observable<any> {
+    return this.http.get<any>(url);
+  }
+
+  // Method to get Pokemon ID by name
+  getPokemonIdByName(name: string): number | null {
+    const key = name.toLowerCase();
+    return this.nameToIdMap[key] ?? null;
+  }
+
 }
