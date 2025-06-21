@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs/operators';
 import {
@@ -105,6 +105,13 @@ export class HomePage implements OnInit {
 
     // Backup of all pokemons
     this.getAllPokemons();
+
+    // Subscribe to the router events to reload Pokemons when navigating to the home page
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd && event.urlAfterRedirects.includes('/home')) {
+        this.loadPokemons(page);
+      }
+    });
   }
 
   // Method to load more Pokemons
@@ -159,43 +166,48 @@ export class HomePage implements OnInit {
   }
 
   onCardChange(updatedPokemon: any) {
-  // Update list of all pokemons
-  const indexAll = this.allPokemons.findIndex(p => p.id === updatedPokemon.id);
-  if (indexAll > -1) {
-    this.allPokemons[indexAll] = { ...updatedPokemon };
-  }
+    // Update list of all pokemons
+    const indexAll = this.allPokemons.findIndex(
+      (p) => p.id === updatedPokemon.id
+    );
+    if (indexAll > -1) {
+      this.allPokemons[indexAll] = { ...updatedPokemon };
+    }
 
-  // Update list of updated pokemons
-  const indexCurrent = this.pokemons.findIndex(p => p.id === updatedPokemon.id);
-  if (indexCurrent > -1) {
-    // Remove if selected pokemon is not in favorites
-    if (this.segmentValue === 'favorites' && !updatedPokemon.isFavorite) {
-      this.pokemons.splice(indexCurrent, 1);
+    // Update list of updated pokemons
+    const indexCurrent = this.pokemons.findIndex(
+      (p) => p.id === updatedPokemon.id
+    );
+    if (indexCurrent > -1) {
+      // Remove if selected pokemon is not in favorites
+      if (this.segmentValue === 'favorites' && !updatedPokemon.isFavorite) {
+        this.pokemons.splice(indexCurrent, 1);
+      } else {
+        this.pokemons[indexCurrent] = { ...updatedPokemon };
+      }
     } else {
-      this.pokemons[indexCurrent] = { ...updatedPokemon };
+      // If any pokemon is missing in actual list
+      if (this.segmentValue === 'all') {
+        this.pokemons.push({ ...updatedPokemon });
+      }
     }
-  } else {
-    // If any pokemon is missing in actual list
-    if (this.segmentValue === 'all') {
-      this.pokemons.push({ ...updatedPokemon });
-    }
-  }
 
-  // Update in favorite list of pokemons
-  const indexFav = this.favoritePokemons.findIndex(p => p.id === updatedPokemon.id);
-  if (updatedPokemon.isFavorite) {
-    if (indexFav === -1) {
-      this.favoritePokemons.push({ ...updatedPokemon });
+    // Update in favorite list of pokemons
+    const indexFav = this.favoritePokemons.findIndex(
+      (p) => p.id === updatedPokemon.id
+    );
+    if (updatedPokemon.isFavorite) {
+      if (indexFav === -1) {
+        this.favoritePokemons.push({ ...updatedPokemon });
+      } else {
+        this.favoritePokemons[indexFav] = { ...updatedPokemon };
+      }
     } else {
-      this.favoritePokemons[indexFav] = { ...updatedPokemon };
-    }
-  } else {
-    if (indexFav > -1) {
-      this.favoritePokemons.splice(indexFav, 1);
+      if (indexFav > -1) {
+        this.favoritePokemons.splice(indexFav, 1);
+      }
     }
   }
-}
-
 
   // Method do apply segment filter
   private async applySegmentFilter() {
@@ -244,7 +256,9 @@ export class HomePage implements OnInit {
             image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonService.extractId(
               pokemon.url
             )}.png`,
-            isFavorite: this.favoriteService.isFavorite(this.pokemonService.extractId(pokemon.url)),
+            isFavorite: this.favoriteService.isFavorite(
+              this.pokemonService.extractId(pokemon.url)
+            ),
           }));
 
           // Update the current page based on the offset
@@ -276,7 +290,6 @@ export class HomePage implements OnInit {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (response: any) => {
-
           // Map the response to the pokemons array with name, url, and image
           this.allPokemons = response.results.map((pokemon: any) => ({
             id: this.pokemonService.extractId(pokemon.url),
@@ -285,7 +298,9 @@ export class HomePage implements OnInit {
             image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonService.extractId(
               pokemon.url
             )}.png`,
-            isFavorite: this.favoriteService.isFavorite(this.pokemonService.extractId(pokemon.url)),
+            isFavorite: this.favoriteService.isFavorite(
+              this.pokemonService.extractId(pokemon.url)
+            ),
           }));
 
           // Save the current page to localStorage
