@@ -276,8 +276,6 @@ export class HomePage implements OnInit {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (response: any) => {
-          // Update the total number of pages based on the response
-          this.totalPages = 1;
 
           // Map the response to the pokemons array with name, url, and image
           this.allPokemons = response.results.map((pokemon: any) => ({
@@ -289,9 +287,6 @@ export class HomePage implements OnInit {
             )}.png`,
             isFavorite: this.favoriteService.isFavorite(this.pokemonService.extractId(pokemon.url)),
           }));
-
-          // Update the current page based on the offset
-          this.currentPage = 1;
 
           // Save the current page to localStorage
           localStorage.setItem('currentPage', this.currentPage.toString());
