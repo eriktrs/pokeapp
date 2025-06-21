@@ -59,7 +59,6 @@ export class PokemonCardComponent implements OnInit {
   this.changed.emit({ ...this.pokemon });
 }
 
-
   // Method to check if this Pokemon is favorite
   isFavorite(pokemonId:string): boolean {
     return this.favoriteService.isFavorite(pokemonId);
