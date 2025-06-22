@@ -110,6 +110,7 @@ export class HomePage implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && event.urlAfterRedirects.includes('/home')) {
         // Reload Pokemons when navigating to the home page
+        this.segmentValue = 'all';
         this.loadPokemons(page);
         this.getAllPokemons();
       }
