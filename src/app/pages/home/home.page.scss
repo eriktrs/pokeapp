@@ -52,12 +52,10 @@ ion-title {
   text-align: center;
   font-family: "Pokemon Solid", sans-serif;
   letter-spacing: 10px;
-  -webkit-text-stroke: 8px;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: #3b4cca;
   font-size: 55px;
   margin: auto;
   color: #ffcb05;
+  text-shadow: 2px 2px 0 #2a75bb;
 }
 
 /* Toolbar styles */
