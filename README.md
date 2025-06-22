@@ -1,6 +1,6 @@
 # Pokémon App
 
-[![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/eriktrs/pokeapp/blob/main/README.en-us.md)
+[![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/eriktrs/pokeapp/blob/main/README.en.md)
 
 > 🇧🇷 Versão em Português
 
@@ -8,16 +8,16 @@ Este projeto foi desenvolvido como parte de um desafio técnico que trata-se de 
 
 ## 🚀 Abordagem e Estilo de Codificação
 
-1️⃣ Foi adotado uma arquitetura modular, separando **componentes**, **serviços** e **rotas**, facilitando a manutenção e escalabilidade.
-2️⃣ O projeto usa **injeção de dependência Angular** para gerenciar serviços e chamadas HTTP.
-3️⃣ Para manter o código limpo e legível, foi utilizado **TypeScript estrito**, com bastante uso de tipagens e interfaces para os modelos de dados.
-4️⃣ Os commits foram feitos de forma **frequente e descritiva**, seguindo as boas práticas do Git.
-5️⃣ A listagem principal dos Pokémons conta com sistema de **paginação**, garantindo melhor usabilidade e desempenho.
-6️⃣ O projeto possui uma funcionalidade de **favoritos**, permitindo ao usuário marcar/desmarcar Pokémons, com persistência em `localStorage`.
-7️⃣ A interface foi desenvolvida de maneira que seja **responsiva**, adequada para diferentes tamanhos de tela e orientações (retrato/paisagem).
-8️⃣ Os testes unitários foram criados para testar **componentes**, **serviços** e **rotas**, utilizando **Jasmine/Karma**.
-9️⃣ O layout foi pensado para ser funcional e organizado, com uso do **Ionic Components** e **Flexbox/Grid** para melhor alinhamento.
-🔟 A navegação foi construída através do **Angular Router**, garantindo uma transição fluida entre listagem e tela de detalhes.
+- Foi adotado uma arquitetura modular, separando **componentes**, **serviços** e **rotas**, facilitando a manutenção e escalabilidade.
+- O projeto usa **injeção de dependência Angular** para gerenciar serviços e chamadas HTTP.
+- Para manter o código limpo e legível, foi utilizado **TypeScript estrito**, com bastante uso de tipagens e interfaces para os modelos de dados.
+- Os commits foram feitos de forma **frequente e descritiva**, seguindo as boas práticas do Git.
+- A listagem principal dos Pokémons conta com sistema de **paginação**, garantindo melhor usabilidade e desempenho.
+- O projeto possui uma funcionalidade de **favoritos**, permitindo ao usuário marcar/desmarcar Pokémons, com persistência em `localStorage`.
+- A interface foi desenvolvida de maneira que seja **responsiva**, adequada para diferentes tamanhos de tela e orientações (retrato/paisagem).
+- Os testes unitários foram criados para testar **componentes**, **serviços** e **rotas**, utilizando **Jasmine/Karma**.
+- O layout foi pensado para ser funcional e organizado, com uso do **Ionic Components** e **Flexbox/Grid** para melhor alinhamento.
+- A navegação foi construída através do **Angular Router**, garantindo uma transição fluida entre listagem e tela de detalhes.
 
 ## 📋 Requisitos para execução
 

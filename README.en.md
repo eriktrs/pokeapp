@@ -8,16 +8,16 @@ This project was developed as part of a technical challenge. It is an applicatio
 
 ## 🚀 Approach and Coding Style
 
-1️⃣ A **modular architecture** was adopted, separating **components**, **services**, and **routes** to make the codebase easy to maintain and scalable.  
-2️⃣ The project uses **Angular's dependency injection** to manage services and HTTP requests.  
-3️⃣ **Strict TypeScript** was used to ensure clean and readable code, with typings and interfaces for data models.  
-4️⃣ **Frequent and descriptive commits** were made, following Git best practices.  
-5️⃣ The main Pokémon list features **pagination**, providing better usability and performance.  
-6️⃣ A **favorites** feature allows users to mark/unmark Pokémon, with persistence in `localStorage`.  
-7️⃣ The interface was designed to be **responsive**, working well on different screen sizes and orientations (portrait/landscape).  
-8️⃣ **Unit tests** were created to cover **components**, **services**, and **routes**, using **Jasmine/Karma**.  
-9️⃣ The layout is functional and organized, using **Ionic Components** and **Flexbox/Grid** for alignment.  
-🔟 Navigation was built using **Angular Router**, ensuring smooth transitions between list and detail pages.
+- A **modular architecture** was adopted, separating **components**, **services**, and **routes** to make the codebase easy to maintain and scalable.  
+- The project uses **Angular's dependency injection** to manage services and HTTP requests.  
+- **Strict TypeScript** was used to ensure clean and readable code, with typings and interfaces for data models.  
+- **Frequent and descriptive commits** were made, following Git best practices.  
+- The main Pokémon list features **pagination**, providing better usability and performance.  
+- A **favorites** feature allows users to mark/unmark Pokémon, with persistence in `localStorage`.  
+- The interface was designed to be **responsive**, working well on different screen sizes and orientations (portrait/landscape).  
+- **Unit tests** were created to cover **components**, **services**, and **routes**, using **Jasmine/Karma**.  
+- The layout is functional and organized, using **Ionic Components** and **Flexbox/Grid** for alignment.  
+- Navigation was built using **Angular Router**, ensuring smooth transitions between list and detail pages.
 
 ## 📋 Requirements to run
 
