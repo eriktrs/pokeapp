@@ -4,6 +4,7 @@ import { of, Subject } from 'rxjs';
 import { HomePage } from './home.page';
 import { PokemonService } from '../../services/pokemon/pokemon.service';
 import { FavoriteService } from '../../services/favorite/favorite.service';
+import { provideRouter } from '@angular/router';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -13,7 +14,7 @@ describe('HomePage', () => {
   let routerEventsSubject: Subject<any>;
 
   beforeEach(async () => {
-    // Create spies for services
+    // Create spies for PokemonService and FavoriteService methods
     const pokemonSpy = jasmine.createSpyObj('PokemonService', [
       'getPokemonList',
       'extractId',
@@ -25,15 +26,17 @@ describe('HomePage', () => {
       'removeFavorite',
     ]);
 
-    // Create a mock Router with events as a Subject to simulate navigation events
+    // Subject to simulate Router navigation events
     routerEventsSubject = new Subject();
 
     await TestBed.configureTestingModule({
-      imports: [HomePage], // <-- HomePage is standalone, so import here
+      imports: [HomePage], // HomePage is a standalone component, so import here
       providers: [
+        provideRouter([]), // Provide an empty router config for the test environment
         { provide: PokemonService, useValue: pokemonSpy },
         { provide: FavoriteService, useValue: favoriteSpy },
-        { provide: Router, useValue: { events: routerEventsSubject.asObservable() } },
+        // Mock Router with events observable and navigate spy
+        { provide: Router, useValue: { events: routerEventsSubject.asObservable(), navigate: jasmine.createSpy() } },
       ],
     }).compileComponents();
 
@@ -44,8 +47,9 @@ describe('HomePage', () => {
     favoriteServiceSpy = TestBed.inject(FavoriteService) as jasmine.SpyObj<FavoriteService>;
   });
 
+  // Test: should load Pokemon list on ngOnInit call
   it('should load pokemons on ngOnInit', () => {
-    // Arrange
+    // Arrange: mock Pokemon API response
     const mockResponse = {
       count: 1,
       results: [{ name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' }],
@@ -54,17 +58,18 @@ describe('HomePage', () => {
     pokemonServiceSpy.extractId.and.returnValue('1');
     favoriteServiceSpy.isFavorite.and.returnValue(false);
 
-    // Act
+    // Act: call ngOnInit
     component.ngOnInit();
 
-    // Assert
+    // Assert: verify that Pokemon list was fetched and component updated
     expect(pokemonServiceSpy.getPokemonList).toHaveBeenCalled();
     expect(component.pokemons.length).toBe(1);
     expect(component.pokemons[0].name).toBe('bulbasaur');
   });
 
+  // Test: should update Pokemon list on Router navigation event to /home
   it('should update pokemons on router navigation to /home', () => {
-    // Arrange
+    // Arrange: mock a different Pokemon API response
     const mockResponse = {
       count: 1,
       results: [{ name: 'charmander', url: 'https://pokeapi.co/api/v2/pokemon/4/' }],
@@ -73,12 +78,11 @@ describe('HomePage', () => {
     pokemonServiceSpy.extractId.and.returnValue('4');
     favoriteServiceSpy.isFavorite.and.returnValue(true);
 
-    // Act
+    // Act: call ngOnInit and simulate navigation event
     component.ngOnInit();
-    // Simulate navigation event
     routerEventsSubject.next(new NavigationEnd(1, '/home', '/home'));
 
-    // Assert
+    // Assert: verify the Pokemon list was updated on navigation event
     expect(pokemonServiceSpy.getPokemonList).toHaveBeenCalledTimes(2);
     expect(component.pokemons[0].name).toBe('charmander');
   });
