@@ -13,7 +13,37 @@ ion-card {
 }
 
 /* Card image styling */
-ion-card img {
+ion-card ion-button img {
   width: 100%;
   height: auto;
+}
+
+/* Icon styling */
+
+/* Small devices (SM: min-width 360px) */
+@media (min-width: 360px) {
+  ion-button ion-icon {
+    font-size: 48px; /* Adjust icon size for small devices */
+  }
+}
+
+/* Medium devices (MD: min-width 768px) */
+@media (min-width: 768px) {
+  ion-button ion-icon {
+    font-size: 46px; /* Adjust icon size for medium devices */
+  }
+}
+
+/* Large devices (LG: min-width 992px) */
+@media (min-width: 992px) {
+  ion-button ion-icon {
+    font-size: 44px; /* Adjust icon size for large devices */
+  }
+}
+
+/* Extra large devices (XL: min-width 1200px) */
+@media (min-width: 1200px) {
+  ion-button ion-icon {
+    font-size: 42px; /* Adjust icon size for extra large devices */
+  }
 }
