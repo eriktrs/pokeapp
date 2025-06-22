@@ -109,7 +109,9 @@ export class HomePage implements OnInit {
     // Subscribe to the router events to reload Pokemons when navigating to the home page
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && event.urlAfterRedirects.includes('/home')) {
+        // Reload Pokemons when navigating to the home page
         this.loadPokemons(page);
+        this.getAllPokemons();
       }
     });
   }
@@ -160,11 +162,13 @@ export class HomePage implements OnInit {
     }
   }
 
+  // Method to handle segment change
   onSegmentChange(event: any) {
     this.segmentValue = event.detail.value;
     this.applySegmentFilter();
   }
 
+  // Method to handle card change
   onCardChange(updatedPokemon: any) {
     // Update list of all pokemons
     const indexAll = this.allPokemons.findIndex(
