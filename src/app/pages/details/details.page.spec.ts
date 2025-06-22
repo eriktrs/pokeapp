@@ -4,7 +4,6 @@ import { of } from 'rxjs';
 import { DetailsPage } from './details.page';
 import { PokemonService } from '../../services/pokemon/pokemon.service';
 import { FavoriteService } from '../../services/favorite/favorite.service';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('DetailsPage', () => {
   let component: DetailsPage;
@@ -13,6 +12,7 @@ describe('DetailsPage', () => {
   let favoriteServiceSpy: jasmine.SpyObj<FavoriteService>;
 
   beforeEach(async () => {
+    // Create spies for PokemonService methods and FavoriteService methods
     const pokemonSpy = jasmine.createSpyObj('PokemonService', [
       'getPokemonDetails',
       'getPokemonSpecies',
@@ -25,10 +25,10 @@ describe('DetailsPage', () => {
     await TestBed.configureTestingModule({
       imports: [DetailsPage], // standalone component in imports
       providers: [
-        provideRouter([]),
-        provideHttpClientTesting(),
+        provideRouter([]), // Provide empty router configuration for test
         { provide: PokemonService, useValue: pokemonSpy },
         { provide: FavoriteService, useValue: favoriteSpy },
+        // Mock ActivatedRoute with snapshot paramMap returning '1' as id param
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { paramMap: { get: () => '1' } } },
@@ -43,8 +43,9 @@ describe('DetailsPage', () => {
     favoriteServiceSpy = TestBed.inject(FavoriteService) as jasmine.SpyObj<FavoriteService>;
   });
 
+  // Test: should load Pokemon details on ngOnInit call
   it('should load pokemon details on ngOnInit', () => {
-    // Arrange: mock data for getPokemonDetails
+    // Arrange: prepare mock Pokemon details response
     const mockPokemonDetails = {
       id: 1,
       name: 'bulbasaur',
@@ -64,7 +65,7 @@ describe('DetailsPage', () => {
     pokemonServiceSpy.getPokemonDetails.and.returnValue(of(mockPokemonDetails));
     favoriteServiceSpy.isFavorite.and.returnValue(true);
 
-    // Mock species and evolution chain calls
+    // Arrange: mock species and evolution chain responses
     const mockSpeciesData = { evolution_chain: { url: 'evo_url' } };
     pokemonServiceSpy.getPokemonSpecies.and.returnValue(of(mockSpeciesData));
     pokemonServiceSpy.getEvolutionChainByUrl.and.returnValue(
@@ -77,10 +78,10 @@ describe('DetailsPage', () => {
     );
     pokemonServiceSpy.getPokemonIdByName.and.returnValue(1);
 
-    // Act
+    // Act: call ngOnInit
     component.ngOnInit();
 
-    // Assert
+    // Assert: verify Pokemon details and evolutions are loaded properly
     expect(pokemonServiceSpy.getPokemonDetails).toHaveBeenCalledWith('1');
     expect(component.pokemon.name).toBe('bulbasaur');
     expect(component.relatedImages.length).toBeGreaterThan(0);
