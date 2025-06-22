@@ -7,13 +7,8 @@
       (searchPokemons)="onSearchPokemons($event)"
     ></app-pokemon-filter>
   </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="false">
-  <ion-loading spinner="circles" *ngIf="loading"></ion-loading>
-  <ion-grid *ngIf="!loading">
-    <ion-row>
-      <ion-segment value="all" (ionChange)="onSegmentChange($event)">
+  <ion-toolbar>
+    <ion-segment value="all" (ionChange)="onSegmentChange($event)">
         <ion-segment-button value="all">
           <ion-label>All</ion-label>
         </ion-segment-button>
@@ -21,7 +16,12 @@
           <ion-label>Favorites</ion-label>
         </ion-segment-button>
       </ion-segment>
-    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false">
+  <ion-loading spinner="circles" *ngIf="loading"></ion-loading>
+  <ion-grid *ngIf="!loading">
     <ion-row>
       <ion-col
         sizeXs="6"
