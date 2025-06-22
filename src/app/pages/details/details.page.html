@@ -29,6 +29,9 @@
               <p><strong>Types:</strong> {{ pokemon?.types.join(', ') }}</p>
             </ion-text>
             <ion-text>
+              <p><strong>Base Stats:</strong> {{ formattedStats }}</p>
+            </ion-text>
+            <ion-text>
               <p>
                 <strong>Abilities:</strong> {{ pokemon?.abilities.join(', ') }}
               </p>
@@ -38,6 +41,9 @@
             </ion-text>
             <ion-text>
               <p><strong>Weight:</strong> {{ pokemon?.weight / 10 }} kg</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Moves:</strong> {{ pokemon?.moves.join(', ') }}</p>
             </ion-text>
             <ion-button expand="block" (click)="toggleFavorite()">
               {{ pokemon?.isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
