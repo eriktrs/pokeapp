@@ -1,38 +1,62 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ pokemon?.name | titlecase }}</ion-title>
+    <ion-title>Pokemon Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="!loading; else loadingTemplate">
+  <!-- Main Pokémon Card -->
   <ion-card>
-    <img
-      [src]="pokemon?.sprites?.other?.['official-artwork']?.front_default || pokemon?.sprites?.front_default"
-      alt="{{ pokemon?.name }}"
-    />
-    <ion-card-header>
-      <ion-card-title
-        >#{{ pokemon?.id }} - {{ pokemon?.name | titlecase }}</ion-card-title
-      >
-    </ion-card-header>
     <ion-card-content>
-      <p><strong>Types:</strong> {{ pokemon?.types.join(', ') }}</p>
-      <p><strong>Abilities:</strong> {{ pokemon?.abilities.join(', ') }}</p>
-      <p><strong>Height:</strong> {{ pokemon?.height / 10 }} m</p>
-      <p><strong>Weight:</strong> {{ pokemon?.weight / 10 }} kg</p>
-      <ion-button expand="block" (click)="toggleFavorite()">
-        {{ pokemon?.isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
-      </ion-button>
+      <ion-card-title>
+        #{{ pokemon?.id }} - {{ pokemon?.name | titlecase }}
+      </ion-card-title>
+
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <!-- Pokémon Image -->
+          <ion-col size="12" size-md="4" class="ion-text-center">
+            <img
+              [src]="pokemon?.sprites?.other?.['official-artwork']?.front_default || pokemon?.sprites?.front_default"
+              alt="{{ pokemon?.name }}"
+              class="pokemon-image"
+            />
+          </ion-col>
+
+          <!-- Pokémon Details -->
+          <ion-col size="12" size-md="8">
+            <ion-text>
+              <p><strong>Types:</strong> {{ pokemon?.types.join(', ') }}</p>
+            </ion-text>
+            <ion-text>
+              <p>
+                <strong>Abilities:</strong> {{ pokemon?.abilities.join(', ') }}
+              </p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Height:</strong> {{ pokemon?.height / 10 }} m</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Weight:</strong> {{ pokemon?.weight / 10 }} kg</p>
+            </ion-text>
+            <ion-button expand="block" (click)="toggleFavorite()">
+              {{ pokemon?.isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
+            </ion-button>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 
+  <!-- Related Images -->
   <ion-card *ngIf="relatedImages.length > 0">
     <ion-card-header>
       <ion-card-title>Related Images</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
-        <ion-row>
+        <ion-row class="ion-justify-content-center">
           <ion-col
             size="6"
             size-sm="4"
@@ -48,23 +72,24 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Evolutions -->
   <ion-card *ngIf="evolutions.length > 0">
     <ion-card-header>
       <ion-card-title>Evolutions</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
-        <ion-row>
+        <ion-row class="ion-justify-content-center">
           <ion-col
             size="6"
             size-sm="4"
             size-md="3"
             size-lg="2"
             *ngFor="let evo of evolutions"
-            class="ion-text-center"
+            class="ion-text-center evolution-col"
           >
-            <img [src]="evo.image" [alt]="evo.name" class="responsive-img" />
-            <ion-text>{{ evo.name | titlecase }}</ion-text>
+            <img [src]="evo.image" [alt]="evo.name" class="evolution-image" />
+            <ion-text class="evolution-name">{{ evo.name | titlecase }}</ion-text>
           </ion-col>
         </ion-row>
       </ion-grid>

@@ -1,6 +1,138 @@
-.responsive-img {
-  max-width: 100%;
+/* Base background (XS: default for all sizes) */
+ion-content {
+  --background: transparent;
+  background-image: url("../../../assets/images/mick-haupt-KtTF68ZjBak-unsplash-lg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  color: #222;
+}
+
+/* Small devices (SM: min-width 576px) */
+@media (min-width: 576px) {
+  ion-content {
+    background-image: url("../../../assets/images/mick-haupt-KtTF68ZjBak-unsplash-xs.jpg");
+  }
+}
+
+/* Medium devices (MD: min-width 768px) */
+@media (min-width: 768px) {
+  ion-content {
+    background-image: url("../../../assets/images/mick-haupt-KtTF68ZjBak-unsplash-md.jpg");
+  }
+}
+
+/* Large devices (LG: min-width 992px) */
+@media (min-width: 992px) {
+  ion-content {
+    background-image: url("../../../assets/images/mick-haupt-KtTF68ZjBak-unsplash-lg.jpg");
+  }
+}
+
+/* Extra large devices (XL: min-width 1200px) */
+@media (min-width: 1200px) {
+  ion-content {
+    background-image: url("../../../assets/images/mick-haupt-KtTF68ZjBak-unsplash-full.jpg");
+  }
+}
+
+/* Title and card titles with Pokemon colors and font */
+ion-title,
+ion-card-title {
+  text-align: center;
+  font-family: 'Pokemon Solid';
+  color: #ffcb05;
+  text-shadow: 2px 2px 0 #2a75bb;
+}
+
+/* Toolbar styles */
+ion-toolbar {
+  --background: white;
+  --border-width: 1px 0px 0px 0px;
+  --border-color: white;
+}
+
+/* Card styling with rounded corners and shadow */
+ion-card {
+  --background: transparent;
+  backdrop-filter: blur(40px);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 16px;
+}
+
+/* Favorite star icon color override */
+ion-icon[name='star'] {
+  transition: color 0.3s ease;
+}
+
+/* Color for favorite Pokémon */
+ion-icon[name='star'][color='warning'] {
+  color: #ffcb05;
+}
+
+/* Pagination text */
+ion-text {
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+  padding: 0px 20px 0px 20px;
+}
+
+/* Button styling */
+ion-button {
+  --background: red;
+  --color: white;
+  border-radius: 10px;
+  font-weight: 700;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover states */
+ion-button:hover {
+  --background: darkred;
+  --color: white;
+}
+
+/* Pokemon image styling */
+.pokemon-image {
+  width: 100%;
+  max-width: 250px;
   height: auto;
   margin: 0 auto;
-  display: block;
+}
+
+/* Responsive image styling */
+.responsive-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+/* Evolution styling */
+
+/* Evolution flex column */
+.evolution-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Evolution image styling */
+.evolution-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+/* Evolution name styling */
+.evolution-name {
+  text-align: center;
+  font-family: 'Pokemon Solid';
+  color: #ffcb05;
+  text-shadow: 2px 2px 0 #2a75bb;
+  margin-top: 5px;
 }
