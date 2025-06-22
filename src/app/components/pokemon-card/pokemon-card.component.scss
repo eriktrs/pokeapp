@@ -12,6 +12,13 @@ ion-card {
   justify-content: center;
 }
 
+/* Card title styling */
+ion-card-title {
+  font-family: 'Pokemon Solid';
+  color: #ffcb05;
+  text-shadow: 2px 2px 0 #2a75bb;
+}
+
 /* Card image styling */
 ion-card ion-button img {
   width: 100%;
