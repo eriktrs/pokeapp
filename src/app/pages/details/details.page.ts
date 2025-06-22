@@ -66,13 +66,6 @@ export class DetailsPage implements OnInit {
     }
   }
 
-  // Navigate to home page when leaving the details page
-  ionViewWillLeave() {
-    this.router.navigateByUrl('/home', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/home']);
-    });
-  }
-
   // Load Pokémon details by ID or name
   loadPokemonDetails(id: string) {
     this.loading = true;
