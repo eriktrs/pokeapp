@@ -48,10 +48,10 @@ export class PokemonCardComponent implements OnInit {
   // Method to toggle favorites Pokemons
   toggleFavorite(pokemonId: string) {
   if (this.favoriteService.isFavorite(pokemonId)) {
-    this.favoriteService.removeFavorite(pokemonId);
+    this.favoriteService.removeFavorite(String(pokemonId));
     this.pokemon.isFavorite = false;
   } else {
-    this.favoriteService.addFavorite(pokemonId);
+    this.favoriteService.addFavorite(String(pokemonId));
     this.pokemon.isFavorite = true;
   }
 
