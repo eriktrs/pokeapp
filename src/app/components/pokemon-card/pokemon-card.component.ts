@@ -11,7 +11,7 @@ import {
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { heart, logoApple, settingsSharp, star } from 'ionicons/icons';
+import { star } from 'ionicons/icons';
 import { FavoriteService } from '../../services/favorite/favorite.service';
 
 @Component({
@@ -35,7 +35,7 @@ export class PokemonCardComponent implements OnInit {
   @Output() changed = new EventEmitter<any>();
 
   constructor(private favoriteService: FavoriteService ,private router: Router) {
-    addIcons({ heart, logoApple, settingsSharp, star });
+    addIcons({ star });
   }
 
   ngOnInit() {}
