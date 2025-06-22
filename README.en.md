@@ -1,6 +1,6 @@
 # Pokémon App
 
-[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)]([./README.md](https://github.com/eriktrs/pokeapp/blob/main/README.md))
+[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/eriktrs/pokeapp/blob/main/README.md)
 
 > 🇪️n English version
 
