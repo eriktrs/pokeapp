@@ -54,8 +54,7 @@ export class DetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private pokemonService: PokemonService,
-    private favoriteService: FavoriteService,
-    private router: Router,
+    private favoriteService: FavoriteService
   ) {}
 
   // Initialize the component and load Pokémon details based on the route parameter
@@ -79,6 +78,11 @@ export class DetailsPage implements OnInit {
           abilities: data.abilities.map((a: any) => a.ability.name),
           height: data.height,
           weight: data.weight,
+          stats: data.stats.map((s: any) => ({
+            name: s.stat.name,
+            value: s.base_stat,
+          })),
+          moves: data.moves.map((m: any) => m.move.name),
           isFavorite: this.favoriteService.isFavorite(String(data.id)),
         };
 
@@ -156,5 +160,13 @@ export class DetailsPage implements OnInit {
       this.favoriteService.addFavorite(String(this.pokemon.id));
       this.pokemon.isFavorite = true;
     }
+  }
+
+  // Format Pokémon stats for display
+  get formattedStats(): string {
+    if (!this.pokemon?.stats) return '';
+    return this.pokemon.stats
+      .map((s: any) => `${s.name}: ${s.value}`)
+      .join(', ');
   }
 }
