@@ -1,4 +1,10 @@
+/* Card styles for displaying Pokémon information */
+
+// Pokémon card styling
 ion-card {
+  --background: transparent;
+  backdrop-filter: blur(40px);
+  border-radius: 20px;
   align-content: center;
   align-items: center;
   display: flex;
@@ -6,6 +12,7 @@ ion-card {
   justify-content: center;
 }
 
+/* Card image styling */
 ion-card img {
   width: 100%;
   height: auto;
