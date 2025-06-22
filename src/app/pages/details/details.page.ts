@@ -154,12 +154,13 @@ export class DetailsPage implements OnInit {
     return evolutions;
   }
 
+  // Toggle favorite status of the Pokémon
   toggleFavorite() {
     if (this.pokemon.isFavorite) {
-      this.favoriteService.removeFavorite(this.pokemon.id);
+      this.favoriteService.removeFavorite(String(this.pokemon.id));
       this.pokemon.isFavorite = false;
     } else {
-      this.favoriteService.addFavorite(this.pokemon.id);
+      this.favoriteService.addFavorite(String(this.pokemon.id));
       this.pokemon.isFavorite = true;
     }
   }
